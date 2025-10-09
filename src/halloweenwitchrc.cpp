@@ -23,9 +23,9 @@ HalloweenWitchRc::HalloweenWitchRc(sabre::FactorySharedPtr factory,
 
 void HalloweenWitchRc::start()
 {
+    _service->start();
     _init_button();
     _init_esp_now();
-    _service->start();
 }
 
 void HalloweenWitchRc::_init_button()
@@ -52,6 +52,7 @@ void HalloweenWitchRc::_init_esp_now()
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
     ESP_ERROR_CHECK(esp_wifi_start());
+    ESP_ERROR_CHECK(esp_wifi_set_channel(1, WIFI_SECOND_CHAN_NONE));
 
     // Initialize ESP-NOW after Wi-Fi is started
     ESP_ERROR_CHECK(esp_now_init());
@@ -83,8 +84,12 @@ void HalloweenWitchRc::_button_press()
 {
     int64_t current_time = esp_timer_get_time();
     if (current_time - _last_press_time < 1000000)
+    {
+        // std::cout << "Not sending message" << std::endl;
         return;
+    }
     _send_esp_now_message("PRESS");
+    std::cout << "Send ESP-NOW message" << std::endl;
     _last_press_time = current_time;
 }
 
