@@ -85,7 +85,7 @@ void HalloweenWitchRc::_button_press()
     int64_t current_time = esp_timer_get_time();
     if (current_time - _last_press_time < 1000000)
     {
-        // std::cout << "Not sending message" << std::endl;
+        std::cout << "Not sending message" << std::endl;
         return;
     }
     _send_esp_now_message("PRESS");
