@@ -32,7 +32,7 @@ void HalloweenWitchRc::_init_button()
 {
     _button->add_interrupt_handler(
         std::bind(&HalloweenWitchRc::_isr_button, this, std::placeholders::_1),
-        sabre::ISRTrigger::FALLING);
+        sabre::ISRTrigger::RISING);
 }
 
 void HalloweenWitchRc::_init_esp_now()
